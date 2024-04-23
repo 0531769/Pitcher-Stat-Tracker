@@ -1,0 +1,6 @@
+/*
+Author:
+Date:
+Description: This file should keep track of the relevant stats for each pitcher in instance variables.
+  Include get/set methods for each stat and both empty and full constructors for the class.
+*/
