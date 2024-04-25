@@ -130,6 +130,7 @@ public class App extends Application {
     }
     
     // Retrieve data from the input fields - DG
+    // ** Need to validate entries and that entries are a valid number
     private void submitButtonClicked() {
     String firstName = firstNameField.getText();   
     String lastName = lastNameField.getText();
