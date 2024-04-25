@@ -5,4 +5,4 @@ Who's doing what?
 Trevor Pence - Create abbreviations guide
 Duane Gandelot - Create outline of GUI for everyone to review and provide feedback. Will start building GUI with appropriate labels, fields, etc.
 Julius Peterson - // Assist with help guide for filling out form and creating layout of the printable report
-Jay Lee - //tasks go here
+Jay Lee - //Create the method for storing and reading data files
