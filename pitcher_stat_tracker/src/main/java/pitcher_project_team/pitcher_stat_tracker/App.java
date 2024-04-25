@@ -172,7 +172,11 @@ public class App extends Application {
     
     // commented out - Not sure how this function will work with GUI -DG
     private void helpButtonClicked() {
-            System.out.println("Help button clicked!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Help Page");
+            alert.setHeaderText("Help");
+            alert.setContentText("This is the sample text for the help page");
+            alert.showAndWait();
     }
 
     private void exitButtonClicked() {
