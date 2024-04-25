@@ -64,47 +64,47 @@ public class App extends Application {
         lastNameField = new TextField();
         grid.add(lastNameField, 1, 2);
         
-        grid.add(new Label("Team:"), 0, 3);
+        grid.add(new Label("Team Name:"), 0, 3);
         teamNameField = new TextField();
         grid.add(teamNameField, 1, 3);
         
-        grid.add(new Label("Enter ip:"), 0, 4);
+        grid.add(new Label("Innings Pitched (ip):"), 0, 4);
         inningsPitchedField = new TextField();
         grid.add(inningsPitchedField, 1, 4);
         
-        grid.add(new Label("Enter h:"), 0, 5);
+        grid.add(new Label("Number of Pitches (np):"), 0, 12);
+        numberOfPitchesField = new TextField();
+        grid.add(numberOfPitchesField, 1, 12);
+        
+        grid.add(new Label("Hits Allowed (h):"), 0, 5);
         hitField = new TextField();
         grid.add(hitField, 1, 5);
         
-        grid.add(new Label("Enter r:"), 0, 6);
+        grid.add(new Label("Runs Allowed (r):"), 0, 6);
         runField = new TextField();
         grid.add(runField, 1, 6);
         
-        grid.add(new Label("Enter er:"), 0, 7);
+        grid.add(new Label("Earned Runs Allowed (er):"), 0, 7);
         earnedRunField = new TextField();
         grid.add(earnedRunField, 1, 7);
         
-        grid.add(new Label("Enter bb:"), 0, 8);
+        grid.add(new Label("Walks (bb):"), 0, 8);
         walkField = new TextField();
         grid.add(walkField, 1, 8);
         
-        grid.add(new Label("Enter so:"), 0, 9);
+        grid.add(new Label("Strike Outs (so):"), 0, 9);
         strikeoutField = new TextField();
         grid.add(strikeoutField, 1, 9);
         
-        grid.add(new Label("Enter ab:"), 0, 10);
+        grid.add(new Label("At Bats (ab):"), 0, 10);
         atBatField = new TextField();
         grid.add(atBatField, 1, 10);
         
-        grid.add(new Label("Enter bf:"), 0, 11);
+        grid.add(new Label("Batters Faced (bf):"), 0, 11);
         battersFacedField = new TextField();
         grid.add(battersFacedField, 1, 11);
 
-        grid.add(new Label("Enter np:"), 0, 12);
-        numberOfPitchesField = new TextField();
-        grid.add(numberOfPitchesField, 1, 12);
-    
-        grid.add(new Label("Enter Date of the Game \n(MM/DD/YYYY):"), 0, 13);
+        grid.add(new Label("Date of Game \n(MM/DD/YYYY):"), 0, 13);
         DateOfGameField = new TextField();
         grid.add(DateOfGameField, 1, 13);
 
@@ -172,14 +172,8 @@ public class App extends Application {
     
     // commented out - Not sure how this function will work with GUI -DG
     private void helpButtonClicked() {
-   /* helpButton.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
- 
             System.out.println("Help button clicked!");
-        }
-    });      */
-}
+    }
 
     private void exitButtonClicked() {
         System.exit(0);   // 0 indicates a normal exit
