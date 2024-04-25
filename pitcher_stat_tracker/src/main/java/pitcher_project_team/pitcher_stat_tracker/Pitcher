@@ -177,12 +177,8 @@ public class Pitcher {
 
 
     // calculate the earned run average
-    
-    // ** Need to modify to take into account partial innings
-    // (.1 = 1/3 of an inning) .333
-    // (.2 = 2/3 of an inning) .666
     public double earnedRunAverage() {
-    //
+
         if (inningsPitched > 0) {
             return (earnedRuns / inningsPitched) * 9;
         } else {
