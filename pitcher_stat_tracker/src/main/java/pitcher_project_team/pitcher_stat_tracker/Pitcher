@@ -6,7 +6,7 @@ Description: This file should keep track of the relevant stats for each pitcher 
   Include get/set methods for each stat and both empty and full constructors for the class.
 */
 
-package com.mycompany.pitcher;
+package pitcher_project_team.pitcher_stat_tracker;
 
 public class Pitcher {
     private String firstName;
