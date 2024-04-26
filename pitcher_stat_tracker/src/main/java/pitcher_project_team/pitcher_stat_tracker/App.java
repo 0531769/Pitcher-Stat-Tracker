@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -35,10 +36,44 @@ public class App extends Application {
     private TextField battersFacedField;
     private TextField numberOfPitchesField;
     private TextField DateOfGameField;
-    
 
-       @Override
+           @Override
     public void start(Stage primaryStage) {
+        showMenu(primaryStage);
+    }
+
+    private void showMenu(Stage primaryStage) {
+        // create grid, create scene -TCP
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setHgap(10);
+        grid.setVgap(10);
+        
+        Scene scene = new Scene(grid, 400, 200);
+        
+        // Create Submit, Help, and Exit buttons - TCP
+        Button submitButton = new Button("Enter Player Stats");
+        submitButton.setOnAction(event -> openPitcherPage(primaryStage));
+        
+        Button reportButton = new Button("Generate Report(s)");
+        reportButton.setOnAction(event -> openReportsPage());
+        
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(event -> exitButtonClicked());
+        
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().add(submitButton);
+        buttonBox.getChildren().add(reportButton);
+        buttonBox.getChildren().add(exitButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        grid.add(buttonBox, 0, 7, 3, 1);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    public void openPitcherPage(Stage primaryStage) {
         primaryStage.setTitle("Pitcher Statistics");
 
         // create grid, create scene -DG
@@ -115,13 +150,13 @@ public class App extends Application {
         Button helpButton = new Button("Help");
         helpButton.setOnAction(event -> helpButtonClicked());
        
-        Button exitButton = new Button("Exit");
-        exitButton.setOnAction(event -> exitButtonClicked());
+        Button menuButton = new Button("Menu");
+        menuButton.setOnAction(event -> menuButtonClicked());
         
         HBox buttonBox = new HBox(10);
         buttonBox.getChildren().add(submitButton);
         buttonBox.getChildren().add(helpButton);
-        buttonBox.getChildren().add(exitButton);
+        buttonBox.getChildren().add(menuButton);
         buttonBox.setAlignment(Pos.BOTTOM_CENTER);
         grid.add(buttonBox, 0, 14, 3, 1);
 
@@ -175,7 +210,10 @@ public class App extends Application {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Help Page");
             alert.setHeaderText("Help");
-            alert.setContentText("This is the sample text for the help page");
+            alert.setContentText("Enter data for each pitcher whose stats you wish to record.\n"
+                    + "Press submit when finished to submit the stats.\n"
+            + "If you wish to stop entering data, press 'menu' to return \n"
+                    + "to the main menu.");
             alert.showAndWait();
     }
 
