@@ -1,0 +1,17 @@
+/*
+Author: Trevor Pence
+Date: 4/22/2024
+Description: Keep track of the relevant stats and their abbreviations.
+*/
+
+ip - Innings Pitched
+h - hits allowed
+r - total runs
+er - earned runs
+bb - walks (bases on balls)
+so - strike-outs
+ab - at bats
+bf - batters faced (different from At Bats because it includes hit-by-pitch, walk, and sacrifice)
+np - pitch count
+
+ERA - earned run average. Calculated by dividing the number of earned runs by the number of innings pitched and multiplying that product by 9.
