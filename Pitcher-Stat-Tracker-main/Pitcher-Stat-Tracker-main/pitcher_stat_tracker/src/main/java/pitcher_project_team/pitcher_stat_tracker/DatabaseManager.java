@@ -13,7 +13,7 @@ import java.sql.*;
 public class DatabaseManager {
     private static Connection connection;
     
- public DatabaseManager(String dbFile) throws SQLException {
+ public DatabaseManager() throws SQLException {
         // establish connection to the database
         String url = "jdbc:sqlite:pitcher_stats.sqlite";
         connection = DriverManager.getConnection(url);
