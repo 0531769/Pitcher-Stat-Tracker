@@ -1,3 +1,9 @@
+/*
+ * Name: Julius Peterson
+ * Date: 4/27/24
+ * Team: Pitcher Team (Trevor Pence, Julius Peterson, Jay Lee)
+ * Purpose: Generate a report for a single game.
+ */
 package pitcher_project_team.pitcher_stat_tracker;
 
 import java.io.FileWriter;
@@ -7,24 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SingleGameReport {
-    private String gameDate;
+
+    private String selectedGameDate;
     private String outputFilePath;
 
-    public SingleGameReport(String gameDate, String outputFilePath) {
-        this.gameDate = gameDate;
+    public SingleGameReport(String selectedGameDate, String outputFilePath) {
+        this.selectedGameDate = selectedGameDate;
         this.outputFilePath = outputFilePath;
     }
 
     public void generateReport() {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:pitcher_stats.sqlite")) {
             List<String> reportLines = new ArrayList<>();
-            reportLines.add("Single Game Summary for " + gameDate);
-            reportLines.add("First Name\tLast Name\tTeam Name\tInnings Pitched\tHits\tRuns\tEarned Runs\t" +
-                    "Walks\tStrikeouts\tAt Bats\tBatters Faced\tNumber of Pitches");
+            reportLines.add("Single Game Summary Page:");
+            reportLines.add("");
+            reportLines.add("First Name\tLast Name\tTeam Name\tInnings Pitched\tHits\tRuns\t" +
+                    "Earned Runs\tWalks\tStrikeouts\tAt Bats\tBatters Faced\tNumber of Pitches");
 
             String selectSQL = "SELECT * FROM PitcherStats WHERE DateOfGame = ?";
+            
             try (PreparedStatement ps = connection.prepareStatement(selectSQL)) {
-                ps.setString(1, gameDate);
+                ps.setString(1, selectedGameDate);
+                
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
                         String firstName = rs.getString("FirstName");
