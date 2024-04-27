@@ -1,4 +1,4 @@
-package com.mycompany.pitcher;
+package pitcher_project_team.pitcher_stat_tracker;
 
 import javafx.application.Application;
 
