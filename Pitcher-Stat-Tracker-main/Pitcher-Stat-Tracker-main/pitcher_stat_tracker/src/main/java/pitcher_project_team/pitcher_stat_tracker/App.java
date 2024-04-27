@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -152,7 +153,7 @@ public class App extends Application {
         helpButton.setOnAction(event -> helpButtonClicked());
        
         Button menuButton = new Button("Menu");
-        menuButton.setOnAction(event -> menuButtonClicked());
+        menuButton.setOnAction(event -> showMenu(primaryStage));
         
         HBox buttonBox = new HBox(10);
         buttonBox.getChildren().add(submitButton);
@@ -201,10 +202,11 @@ public class App extends Application {
                 int numberOfPitches = Integer.parseInt(numberOfPitchesField.getText());
                 String dateOfGame = DateOfGameField.getText();
 
+                // create instance of DatabaseManager class to connect to DB
                 DatabaseManager dbm = new DatabaseManager();
                 dbm.insertPlayerStats(firstName, lastName, teamName,
                         inningsPitched, hit, run, earnedRuns, walk, strikeout, 
-                        atBat, battersFaced, numberOfPitches, dateOfGame);
+                        atBat, battersFaced, numberOfPitches, dateOfGame); 
                 
             } catch (NumberFormatException e) {
                 // Handle parsing error (invalid double input)
@@ -213,7 +215,7 @@ public class App extends Application {
                 alert.setContentText("Error parsing Innings Pitched. "
                         + "Please enter a valid number.");
                 alert.showAndWait();
-            } catch (SQLException e) {
+            } catch (SQLException e) { // catch SQLException - TCP
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Data entry error");
                 alert.setContentText("There was an issue uploading the data\n"
@@ -228,7 +230,7 @@ public class App extends Application {
             alert.showAndWait();
         }
 
-    // Inform user that data has been entered into the database
+    // Inform user that data has been entered into the database -TCP
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Submission Confirmation");
             alert.setHeaderText("Form Submitted");
@@ -262,6 +264,10 @@ public class App extends Application {
             + "If you wish to stop entering data, press 'menu' to return \n"
                     + "to the main menu.");
             alert.showAndWait();
+    }
+
+    private void openReportsPage(Stage primaryStage) {
+        
     }
 
     private void exitButtonClicked() {
