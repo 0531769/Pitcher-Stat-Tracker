@@ -7,7 +7,7 @@
 
 package pitcher_project_team.pitcher_stat_tracker;
 
-
+import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -108,37 +108,37 @@ public class App extends Application {
         inningsPitchedField = new TextField();
         grid.add(inningsPitchedField, 1, 4);
         
-        grid.add(new Label("Number of Pitches (np):"), 0, 12);
+        grid.add(new Label("Number of Pitches (np):"), 0, 5);
         numberOfPitchesField = new TextField();
-        grid.add(numberOfPitchesField, 1, 12);
+        grid.add(numberOfPitchesField, 1, 5);
         
-        grid.add(new Label("Hits Allowed (h):"), 0, 5);
+        grid.add(new Label("Hits Allowed (h):"), 0, 6);
         hitField = new TextField();
-        grid.add(hitField, 1, 5);
+        grid.add(hitField, 1, 6);
         
-        grid.add(new Label("Runs Allowed (r):"), 0, 6);
+        grid.add(new Label("Runs Allowed (r):"), 0, 7);
         runField = new TextField();
-        grid.add(runField, 1, 6);
+        grid.add(runField, 1, 7);
         
-        grid.add(new Label("Earned Runs Allowed (er):"), 0, 7);
+        grid.add(new Label("Earned Runs Allowed (er):"), 0, 8);
         earnedRunField = new TextField();
-        grid.add(earnedRunField, 1, 7);
+        grid.add(earnedRunField, 1, 8);
         
-        grid.add(new Label("Walks (bb):"), 0, 8);
+        grid.add(new Label("Walks (bb):"), 0, 9);
         walkField = new TextField();
-        grid.add(walkField, 1, 8);
+        grid.add(walkField, 1, 9);
         
-        grid.add(new Label("Strike Outs (so):"), 0, 9);
+        grid.add(new Label("Strike Outs (so):"), 0, 10);
         strikeoutField = new TextField();
-        grid.add(strikeoutField, 1, 9);
+        grid.add(strikeoutField, 1, 10);
         
-        grid.add(new Label("At Bats (ab):"), 0, 10);
+        grid.add(new Label("At Bats (ab):"), 0, 11);
         atBatField = new TextField();
-        grid.add(atBatField, 1, 10);
+        grid.add(atBatField, 1, 11);
         
-        grid.add(new Label("Batters Faced (bf):"), 0, 11);
+        grid.add(new Label("Batters Faced (bf):"), 0, 12);
         battersFacedField = new TextField();
-        grid.add(battersFacedField, 1, 11);
+        grid.add(battersFacedField, 1, 12);
 
         grid.add(new Label("Date of Game \n(MM/DD/YYYY):"), 0, 13);
         DateOfGameField = new TextField();
@@ -200,6 +200,11 @@ public class App extends Application {
                 int battersFaced = Integer.parseInt(battersFacedField.getText());
                 int numberOfPitches = Integer.parseInt(numberOfPitchesField.getText());
                 String dateOfGame = DateOfGameField.getText();
+
+                DatabaseManager dbm = new DatabaseManager();
+                dbm.insertPlayerStats(firstName, lastName, teamName,
+                        inningsPitched, hit, run, earnedRuns, walk, strikeout, 
+                        atBat, battersFaced, numberOfPitches, dateOfGame);
                 
             } catch (NumberFormatException e) {
                 // Handle parsing error (invalid double input)
@@ -208,6 +213,12 @@ public class App extends Application {
                 alert.setContentText("Error parsing Innings Pitched. "
                         + "Please enter a valid number.");
                 alert.showAndWait();
+            } catch (SQLException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Data entry error");
+                alert.setContentText("There was an issue uploading the data\n"
+                        + "to the database");
+                alert.showAndWait(); 
             }
         } else {
             // Show error message(s) for invalid input
@@ -216,6 +227,13 @@ public class App extends Application {
             alert.setContentText(errorMsg);
             alert.showAndWait();
         }
+
+    // Inform user that data has been entered into the database
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Submission Confirmation");
+            alert.setHeaderText("Form Submitted");
+            alert.setContentText("The form has been submitted.");
+            alert.showAndWait();
               
      // Clear text fields
         firstNameField.clear();
