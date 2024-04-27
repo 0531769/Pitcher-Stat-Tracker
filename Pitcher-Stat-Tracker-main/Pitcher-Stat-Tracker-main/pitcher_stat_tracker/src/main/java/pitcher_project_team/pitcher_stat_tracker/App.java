@@ -164,47 +164,99 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
-    // Retrieve data from the input fields - DG
-    // ** Need to validate entries and that entries are a valid number
-    private void submitButtonClicked() {
-    String firstName = firstNameField.getText();   
-    String lastName = lastNameField.getText();
-    String teamName = teamNameField.getText();
-    double inningsPitched = Double.parseDouble(inningsPitchedField.getText());
-    int hits = Integer.parseInt(hitField.getText());
-    int runs = Integer.parseInt(runField.getText());
-    int earnedRuns = Integer.parseInt(earnedRunField.getText());
-    int walks = Integer.parseInt(walkField.getText());
-    int strikeouts = Integer.parseInt(strikeoutField.getText());
-    int atBats = Integer.parseInt(atBatField.getText());
-    int battersFaced = Integer.parseInt(battersFacedField.getText());
-    int numberOfPitches = Integer.parseInt(numberOfPitchesField.getText()); 
-    String dateOfGameString = DateOfGameField.getText();
+
+    // updated submit button to validate entry and clear the text fields when submit button in clicked.
+          private void submitButtonClicked() {
+        Validation v = new Validation();
+        String errorMsg = "";
+         // Validate First Name
+        errorMsg += v.isPresent(firstNameField.getText(), "First Name");
+
+        // Validate Last Name 
+        errorMsg += v.isPresent(lastNameField.getText(), "Last Name");
+
+        // Validate Team Name 
+        errorMsg += v.isPresent(teamNameField.getText(), "Team Name");
+
+        // Validate Innings Pitched
+        errorMsg += v.isDouble(inningsPitchedField.getText(), "Innings Pitched");
+
+        // Validate Hits 
+        errorMsg += v.isInteger(hitField.getText(), "Hit");
+        
+        // Validate Runs
+        errorMsg += v.isInteger(runField.getText(), "Run");
+        
+        // Validate Earned Runs
+        errorMsg += v.isInteger(earnedRunField.getText(), "Earned Run");
+        
+        // Validate Walk
+        errorMsg += v.isInteger(walkField.getText(), "Walk");
+        
+        // Validate Strikeout
+        errorMsg += v.isInteger(strikeoutField.getText(), "Strikeout");
+        
+        // Validate At Bat
+         errorMsg += v.isInteger(atBatField.getText(), "At Bat");
+      
+        //Validate Batters Faced
+         errorMsg += v.isInteger(battersFacedField.getText(), "Batters Faced");
+        
+        // Number of Pitches
+         errorMsg += v.isInteger(numberOfPitchesField.getText(), "Number of Pitches");
+        
+        //Date of the Game
+         errorMsg += v.isPresent(dateOfGameField.getText(), "Date of Game");
+        
+         // Retrieve data from the input fields - DG
+        if (errorMsg.isEmpty()) {
+            try {
+                String firstName = firstNameField.getText();
+                String lastName = lastNameField.getText();
+                String teamName = teamNameField.getText();
+                double inningsPitched = Double.parseDouble(inningsPitchedField.getText());
+                int hit = Integer.parseInt(hitField.getText());
+                int run = Integer.parseInt(runField.getText());
+                int earnedRuns = Integer.parseInt(earnedRunField.getText());
+                int walk = Integer.parseInt(walkField.getText());
+                int strikeout = Integer.parseInt(strikeoutField.getText());
+                int atBat = Integer.parseInt(atBatField.getText());
+                int battersFaced = Integer.parseInt(battersFacedField.getText());
+                int numberOfPitches = Integer.parseInt(numberOfPitchesField.getText());
+                String dateOfGame = dateOfGameField.getText();
+                
+            } catch (NumberFormatException e) {
+                // Handle parsing error (invalid double input)
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Invalid Data");
+                alert.setContentText("Error parsing Innings Pitched. "
+                        + "Please enter a valid number.");
+                alert.showAndWait();
+            }
+        } else {
+            // Show error message(s) for invalid input
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Invalid Data");
+            alert.setContentText(errorMsg);
+            alert.showAndWait();
+        }
+              
+     // Clear text fields
+        firstNameField.clear();
+        lastNameField.clear();
+        teamNameField.clear();
+        inningsPitchedField.clear();
+        hitField.clear();
+        runField.clear();
+        earnedRunField.clear();
+        walkField.clear();
+        strikeoutField.clear();
+        atBatField.clear();
+        battersFacedField.clear();
+        numberOfPitchesField.clear();
+        dateOfGameField.clear();
     }
-    
-    // Need to figure out the best way to move forward - DG
-    // 1) Need to confirm data entered is valid
-    // 2) If data is valid proceed with sending data to table
-    // 3) Once data is sent, clear text fields for next entry (code provided)
-    
-    /*
-    // Clear text fields
-    firstNameField.clear();
-    lastNameField.clear();
-    teamNameField.clear();
-    inningsPitchedField.clear();
-    hitField.clear();
-    runField.clear();
-    earnedRunField.clear();
-    walkField.clear();
-    strikeoutField.clear();
-    atBatField.clear();
-    battersFacedField.clear();
-    numberOfPitchesField.clear();
-    DateOfGameField.clear();
-    */
-    
+
     
     // commented out - Not sure how this function will work with GUI -DG
     private void helpButtonClicked() {
