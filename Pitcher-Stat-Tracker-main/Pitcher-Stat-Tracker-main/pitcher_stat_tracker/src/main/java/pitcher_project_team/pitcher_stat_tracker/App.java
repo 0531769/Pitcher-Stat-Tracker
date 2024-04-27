@@ -52,7 +52,7 @@ public class App extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
         
-        Scene scene = new Scene(grid, 400, 200);
+        Scene scene = new Scene(grid, 600, 200);
         
         // Create Submit, Help, and Exit buttons - TCP
         Button submitButton = new Button("Enter Player Stats");
@@ -302,6 +302,55 @@ public class App extends Application {
         menuButton.setOnAction(event -> showMenu(primaryStage));
         
         HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().add(submitButton);
+        buttonBox.getChildren().add(menuButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        grid.add(buttonBox, 0, 3, 3, 1);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void openSummaryPage(Stage primaryStage) {
+        // create grid, create scene -TCP
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setHgap(10);
+        grid.setVgap(10);
+        
+        Scene scene = new Scene(grid, 400, 200);
+        
+        Label label = new Label("Generate Single Game Report");
+        label.setLineSpacing(5);
+        grid.add(label, 0, 0);
+        
+        Label gamesLabel = new Label("Select game(s) by date: ");
+        label.setLineSpacing(5);
+        grid.add(gamesLabel, 0, 1);
+        
+        // create sample combo box
+        String[] sampleDates = {"04/27/2024", "05/04/2024", "05/11/2024", "05/18/2024"};
+        ComboBox<String> gamesCombo = new ComboBox<>();
+        gamesCombo.setPromptText("Select Game");
+        for(String game : sampleDates) {
+            gamesCombo.getItems().add(game);
+        }
+        grid.add(gamesCombo, 2, 1);
+        
+        // Create Add, Generate, and Menu buttons - TCP
+        Button addButton = new Button("Add");
+        addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem()));
+        
+        Button submitButton = new Button("Generate");
+        // temp code
+        submitButton.setOnAction(event -> showMenu(primaryStage));
+       
+        Button menuButton = new Button("Menu");
+        menuButton.setOnAction(event -> showMenu(primaryStage));
+        
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().add(addButton);
         buttonBox.getChildren().add(submitButton);
         buttonBox.getChildren().add(menuButton);
         buttonBox.setAlignment(Pos.CENTER);
