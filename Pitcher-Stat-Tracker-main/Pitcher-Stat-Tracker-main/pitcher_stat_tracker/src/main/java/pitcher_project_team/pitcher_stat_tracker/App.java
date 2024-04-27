@@ -169,44 +169,20 @@ public class App extends Application {
           private void submitButtonClicked() {
         Validation v = new Validation();
         String errorMsg = "";
-         // Validate First Name
+         // Validate all entry text fields
         errorMsg += v.isPresent(firstNameField.getText(), "First Name");
-
-        // Validate Last Name 
         errorMsg += v.isPresent(lastNameField.getText(), "Last Name");
-
-        // Validate Team Name 
         errorMsg += v.isPresent(teamNameField.getText(), "Team Name");
-
-        // Validate Innings Pitched
-        errorMsg += v.isDouble(inningsPitchedField.getText(), "Innings Pitched");
-
-        // Validate Hits 
+        errorMsg += v.isDouble(inningsPitchedField.getText(), "Innings Pitched"); 
         errorMsg += v.isInteger(hitField.getText(), "Hit");
-        
-        // Validate Runs
         errorMsg += v.isInteger(runField.getText(), "Run");
-        
-        // Validate Earned Runs
         errorMsg += v.isInteger(earnedRunField.getText(), "Earned Run");
-        
-        // Validate Walk
         errorMsg += v.isInteger(walkField.getText(), "Walk");
-        
-        // Validate Strikeout
         errorMsg += v.isInteger(strikeoutField.getText(), "Strikeout");
-        
-        // Validate At Bat
          errorMsg += v.isInteger(atBatField.getText(), "At Bat");
-      
-        //Validate Batters Faced
          errorMsg += v.isInteger(battersFacedField.getText(), "Batters Faced");
-        
-        // Number of Pitches
          errorMsg += v.isInteger(numberOfPitchesField.getText(), "Number of Pitches");
-        
-        //Date of the Game
-         errorMsg += v.isPresent(dateOfGameField.getText(), "Date of Game");
+         errorMsg += v.isPresent(DateOfGameField.getText(), "Date of Game");
         
          // Retrieve data from the input fields - DG
         if (errorMsg.isEmpty()) {
@@ -223,7 +199,7 @@ public class App extends Application {
                 int atBat = Integer.parseInt(atBatField.getText());
                 int battersFaced = Integer.parseInt(battersFacedField.getText());
                 int numberOfPitches = Integer.parseInt(numberOfPitchesField.getText());
-                String dateOfGame = dateOfGameField.getText();
+                String dateOfGame = DateOfGameField.getText();
                 
             } catch (NumberFormatException e) {
                 // Handle parsing error (invalid double input)
@@ -254,7 +230,7 @@ public class App extends Application {
         atBatField.clear();
         battersFacedField.clear();
         numberOfPitchesField.clear();
-        dateOfGameField.clear();
+        DateOfGameField.clear();
     }
 
     
