@@ -18,6 +18,8 @@ public class Validation  {
         String msg = "";
         if (value.isEmpty()) {
             msg = name + " is required." + lineEnd;
+        }else if (!value.matches("^[A-Z][a-z]+?")) {
+            msg = "Invalid " + name + ". Please enter a valid name." + lineEnd;
         }
         return msg;
         }
