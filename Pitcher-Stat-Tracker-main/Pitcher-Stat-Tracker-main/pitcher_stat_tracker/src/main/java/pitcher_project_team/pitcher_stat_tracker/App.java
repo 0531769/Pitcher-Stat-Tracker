@@ -360,6 +360,17 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    private void addToSummary(String gameDate) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Submission Confirmation");
+            alert.setHeaderText("Game added");
+            alert.setContentText("Game has been added to summary.");
+            alert.showAndWait();
+            
+            
+        // TO DO: create code to add the game to the summary
+    }
+
     private void exitButtonClicked() {
         System.exit(0);   // 0 indicates a normal exit
     }
