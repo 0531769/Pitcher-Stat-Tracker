@@ -59,7 +59,7 @@ public class App extends Application {
         submitButton.setOnAction(event -> openPitcherPage(primaryStage));
         
         Button reportButton = new Button("Generate Report(s)");
-        reportButton.setOnAction(event -> openReportsPage());
+        reportButton.setOnAction(event -> openReportsPage(primaryStage));
         
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(event -> exitButtonClicked());
