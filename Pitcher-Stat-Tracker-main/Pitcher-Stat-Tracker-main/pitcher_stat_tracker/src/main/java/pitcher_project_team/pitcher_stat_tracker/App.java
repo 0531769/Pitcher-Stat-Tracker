@@ -61,12 +61,16 @@ public class App extends Application {
         Button reportButton = new Button("Generate Report(s)");
         reportButton.setOnAction(event -> openReportsPage(primaryStage));
         
+        Button summaryButton = new Button("Season Summary");
+        summaryButton.setOnAction(event -> openSummaryPage(primaryStage));
+        
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(event -> exitButtonClicked());
         
         HBox buttonBox = new HBox(10);
         buttonBox.getChildren().add(submitButton);
         buttonBox.getChildren().add(reportButton);
+        buttonBox.getChildren().add(summaryButton);
         buttonBox.getChildren().add(exitButton);
         buttonBox.setAlignment(Pos.CENTER);
         grid.add(buttonBox, 0, 7, 3, 1);
