@@ -112,38 +112,38 @@ public class App extends Application {
         grid.add(new Label("Innings Pitched (ip):"), 0, 4);
         inningsPitchedField = new TextField();
         grid.add(inningsPitchedField, 1, 4);
-        
-        grid.add(new Label("Number of Pitches (np):"), 0, 5);
-        numberOfPitchesField = new TextField();
-        grid.add(numberOfPitchesField, 1, 5);
-        
-        grid.add(new Label("Hits Allowed (h):"), 0, 6);
+
+        grid.add(new Label("Hits Allowed (h):"), 0, 5);
         hitField = new TextField();
-        grid.add(hitField, 1, 6);
+        grid.add(hitField, 1, 5);
         
-        grid.add(new Label("Runs Allowed (r):"), 0, 7);
+        grid.add(new Label("Runs Allowed (r):"), 0, 6);
         runField = new TextField();
-        grid.add(runField, 1, 7);
+        grid.add(runField, 1, 6);
         
-        grid.add(new Label("Earned Runs Allowed (er):"), 0, 8);
+        grid.add(new Label("Earned Runs Allowed (er):"), 0, 7);
         earnedRunField = new TextField();
-        grid.add(earnedRunField, 1, 8);
+        grid.add(earnedRunField, 1, 7);
         
-        grid.add(new Label("Walks (bb):"), 0, 9);
+        grid.add(new Label("Walks (bb):"), 0, 8);
         walkField = new TextField();
-        grid.add(walkField, 1, 9);
+        grid.add(walkField, 1, 8);
         
-        grid.add(new Label("Strike Outs (so):"), 0, 10);
+        grid.add(new Label("Strike Outs (so):"), 0, 9);
         strikeoutField = new TextField();
-        grid.add(strikeoutField, 1, 10);
+        grid.add(strikeoutField, 1, 9);
         
-        grid.add(new Label("At Bats (ab):"), 0, 11);
+        grid.add(new Label("At Bats (ab):"), 0, 10);
         atBatField = new TextField();
-        grid.add(atBatField, 1, 11);
+        grid.add(atBatField, 1, 10);
         
-        grid.add(new Label("Batters Faced (bf):"), 0, 12);
+        grid.add(new Label("Batters Faced (bf):"), 0, 11);
         battersFacedField = new TextField();
-        grid.add(battersFacedField, 1, 12);
+        grid.add(battersFacedField, 1, 11);
+
+        grid.add(new Label("Number of Pitches (np):"), 0, 12);
+        numberOfPitchesField = new TextField();
+        grid.add(numberOfPitchesField, 1, 12);
 
         grid.add(new Label("Date of Game \n(MM/DD/YYYY):"), 0, 13);
         DateOfGameField = new TextField();
