@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.scene.control.Alert;
 
 public class MultiGameReport {
 
@@ -89,6 +90,13 @@ public class MultiGameReport {
                 writer.write(line + "\n");
             }
         }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Summary Generated");
+                alert.setHeaderText("Summary Generated");
+                alert.setContentText("Your season summary has been generated.\n"
+                        + "Please check your files for a file named " + outputFilePath);
+                alert.showAndWait();
     }
 }
 
