@@ -364,15 +364,32 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    private void addToSummary(String gameDate) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Submission Confirmation");
-            alert.setHeaderText("Game added");
-            alert.setContentText("Game has been added to summary.");
-            alert.showAndWait();
+    private void addToSummary(String gameDate, ArrayList<String> datesList) {
+        if (datesList.contains(gameDate)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Submission Confirmation");
+                alert.setHeaderText("Invalid Submission");
+                alert.setContentText("The selected game is already in the summary.");
+                alert.showAndWait();
+        } else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Submission Confirmation");
+                alert.setHeaderText("Game added");
+                alert.setContentText("Game has been added to summary.");
+                alert.showAndWait();
             
-            
-        // TO DO: create code to add the game to the summary
+            datesList.add(gameDate);
+        }
+    }
+    
+    private void generateSummary(ArrayList<String> datesList) {
+        Collections.sort(datesList);
+        String firstGame = datesList.get(0);
+        String lastGame = datesList.get(datesList.size() - 1);
+        String filename = firstGame + "-" + lastGame;
+        System.out.println(filename);
+        MultiGameReport summary = new MultiGameReport(datesList, filename);
+        summary.generateTotalStatisticsReport();
     }
 
     private void exitButtonClicked() {
