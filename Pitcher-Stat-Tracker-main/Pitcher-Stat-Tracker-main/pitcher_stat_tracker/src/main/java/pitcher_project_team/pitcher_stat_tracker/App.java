@@ -147,7 +147,7 @@ public class App extends Application {
         numberOfPitchesField = new TextField();
         grid.add(numberOfPitchesField, 1, 12);
 
-        grid.add(new Label("Date of Game \n(MM/DD/YYYY):"), 0, 13);
+        grid.add(new Label("Date of Game \n(MM-DD-YYYY):"), 0, 13);
         DateOfGameField = new TextField();
         grid.add(DateOfGameField, 1, 13);
 
@@ -336,7 +336,7 @@ public class App extends Application {
         grid.add(gamesLabel, 0, 1);
         
         // create sample combo box
-        String[] sampleDates = {"04/27/2024", "05/04/2024", "05/11/2024", "05/18/2024"};
+        String[] sampleDates = {"04-27-2024", "05-04-2024", "05-11-2024", "05-18-2024"};
         ComboBox<String> gamesCombo = new ComboBox<>();
         gamesCombo.setPromptText("Select Game");
         for(String game : sampleDates) {
@@ -387,7 +387,7 @@ public class App extends Application {
         Collections.sort(datesList);
         String firstGame = datesList.get(0);
         String lastGame = datesList.get(datesList.size() - 1);
-        String filename = firstGame + "-" + lastGame;
+        String filename = firstGame + "-" + lastGame + ".txt";
         System.out.println(filename);
         MultiGameReport summary = new MultiGameReport(datesList, filename);
         summary.generateTotalStatisticsReport();
