@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.util.Collections;
+import java.util.ArrayList;
 
 
 public class App extends Application {
@@ -290,7 +291,7 @@ public class App extends Application {
         grid.add(gamesLabel, 0, 1);
         
         // create sample combo box
-        String[] sampleDates = {"04/27/2024", "05/04/2024", "05/11/2024", "05/18/2024"};
+        ArrayList<String> gameDates = new ArrayList<>();
         ComboBox<String> gamesCombo = new ComboBox<>();
         gamesCombo.setPromptText("Select Game");
         for(String game : sampleDates) {
@@ -345,11 +346,10 @@ public class App extends Application {
         
         // Create Add, Generate, and Menu buttons - TCP
         Button addButton = new Button("Add");
-        addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem()));
+        addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), gameDates));
         
         Button submitButton = new Button("Generate");
-        // temp code
-        submitButton.setOnAction(event -> showMenu(primaryStage));
+        submitButton.setOnAction(event -> generateSummary(gameDates);
        
         Button menuButton = new Button("Menu");
         menuButton.setOnAction(event -> showMenu(primaryStage));
