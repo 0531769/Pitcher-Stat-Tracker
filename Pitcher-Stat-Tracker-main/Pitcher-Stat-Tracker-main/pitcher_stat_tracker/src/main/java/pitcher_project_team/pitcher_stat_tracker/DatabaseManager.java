@@ -43,4 +43,7 @@ public class DatabaseManager {
         }
     }
 
+    public ArrayList<String> getGameDates() {
+        
+    }
 }
