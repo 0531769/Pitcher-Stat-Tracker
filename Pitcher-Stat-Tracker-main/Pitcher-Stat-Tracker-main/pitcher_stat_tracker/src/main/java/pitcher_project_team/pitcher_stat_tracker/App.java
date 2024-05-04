@@ -4,7 +4,6 @@
  * Team: Pitcher Team (Trevor Pence, Julius Peterson, Jay Lee)
  * Purpose: Create GUI to collect data about each pitcher.
  */
-
 package pitcher_project_team.pitcher_stat_tracker;
 
 import java.sql.SQLException;
@@ -24,9 +23,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.util.Collections;
 import java.util.ArrayList;
-
+import javafx.scene.layout.VBox;
 
 public class App extends Application {
+
     private TextField firstNameField;
     private TextField lastNameField;
     private TextField teamNameField;
@@ -40,47 +40,45 @@ public class App extends Application {
     private TextField battersFacedField;
     private TextField numberOfPitchesField;
     private TextField DateOfGameField;
-
-           @Override
+    
+    @Override
     public void start(Stage primaryStage) {
         showMenu(primaryStage);
     }
 
     private void showMenu(Stage primaryStage) {
-        // create grid, create scene -TCP
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-        grid.setHgap(10);
-        grid.setVgap(10);
-        
-        Scene scene = new Scene(grid, 600, 200);
-        
-        // Create Submit, Help, and Exit buttons - TCP
-        Button submitButton = new Button("Enter Player Stats");
-        submitButton.setOnAction(event -> openPitcherPage(primaryStage));
-        
-        Button reportButton = new Button("Generate Report(s)");
-        reportButton.setOnAction(event -> openReportsPage(primaryStage));
-        
-        Button summaryButton = new Button("Season Summary");
-        summaryButton.setOnAction(event -> openSummaryPage(primaryStage));
-        
-        Button exitButton = new Button("Exit");
-        exitButton.setOnAction(event -> exitButtonClicked());
-        
-        HBox buttonBox = new HBox(10);
-        buttonBox.getChildren().add(submitButton);
-        buttonBox.getChildren().add(reportButton);
-        buttonBox.getChildren().add(summaryButton);
-        buttonBox.getChildren().add(exitButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        grid.add(buttonBox, 0, 7, 3, 1);
+    primaryStage.setTitle("Pitcher Statistics");
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+    GridPane grid = new GridPane();
+    grid.setAlignment(Pos.CENTER);
+    grid.setPadding(new Insets(25, 25, 25, 25));
+    grid.setHgap(10);
+    grid.setVgap(10);
+
+    Scene scene = new Scene(grid, 600, 200);
     
+    // Create buttons
+    Button submitButton = new Button("Enter Player Stats");
+    submitButton.setOnAction(event -> openPitcherPage(primaryStage));
+
+    Button reportButton = new Button("Generate Report(s)");
+    reportButton.setOnAction(event -> generateReportMenu(primaryStage));
+
+    Button exitButton = new Button("Exit");
+    exitButton.setOnAction(event -> exitButtonClicked());
+
+    // Create a VBox for button alignment
+    VBox buttonBox = new VBox(10);
+    buttonBox.getChildren().addAll(submitButton, reportButton, exitButton);
+    buttonBox.setAlignment(Pos.CENTER);
+
+    grid.add(buttonBox, 0, 1);
+
+    primaryStage.setScene(scene);
+    primaryStage.show();
+}
+
+
     public void openPitcherPage(Stage primaryStage) {
         primaryStage.setTitle("Pitcher Statistics");
 
@@ -90,27 +88,27 @@ public class App extends Application {
         grid.setPadding(new Insets(25, 25, 25, 25));
         grid.setHgap(10);
         grid.setVgap(10);
-        
-        Scene scene = new Scene(grid, 440, 570);
-        
+
+        Scene scene = new Scene(grid, 440, 590);
+
         // add instructions - DG
         Label label = new Label("Enter the stats for each pitcher");
         label.setLineSpacing(5);
         grid.add(label, 0, 0);
-        
+
         // add labels and text fields to input the data from gameday stats -DG
         grid.add(new Label("First Name:"), 0, 1);
         firstNameField = new TextField();
         grid.add(firstNameField, 1, 1);
-        
+
         grid.add(new Label("Last Name:"), 0, 2);
         lastNameField = new TextField();
         grid.add(lastNameField, 1, 2);
-        
+
         grid.add(new Label("Team Name:"), 0, 3);
         teamNameField = new TextField();
         grid.add(teamNameField, 1, 3);
-        
+
         grid.add(new Label("Innings Pitched (ip):"), 0, 4);
         inningsPitchedField = new TextField();
         grid.add(inningsPitchedField, 1, 4);
@@ -118,27 +116,27 @@ public class App extends Application {
         grid.add(new Label("Hits Allowed (h):"), 0, 5);
         hitField = new TextField();
         grid.add(hitField, 1, 5);
-        
+
         grid.add(new Label("Runs Allowed (r):"), 0, 6);
         runField = new TextField();
         grid.add(runField, 1, 6);
-        
+
         grid.add(new Label("Earned Runs Allowed (er):"), 0, 7);
         earnedRunField = new TextField();
         grid.add(earnedRunField, 1, 7);
-        
+
         grid.add(new Label("Walks (bb):"), 0, 8);
         walkField = new TextField();
         grid.add(walkField, 1, 8);
-        
+
         grid.add(new Label("Strike Outs (so):"), 0, 9);
         strikeoutField = new TextField();
         grid.add(strikeoutField, 1, 9);
-        
+
         grid.add(new Label("At Bats (ab):"), 0, 10);
         atBatField = new TextField();
         grid.add(atBatField, 1, 10);
-        
+
         grid.add(new Label("Batters Faced (bf):"), 0, 11);
         battersFacedField = new TextField();
         grid.add(battersFacedField, 1, 11);
@@ -154,13 +152,13 @@ public class App extends Application {
         // Create Submit, Help, and Exit buttons - DG
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> submitButtonClicked());
-       
+
         Button helpButton = new Button("Help");
         helpButton.setOnAction(event -> helpButtonClicked());
-       
+
         Button menuButton = new Button("Menu");
         menuButton.setOnAction(event -> showMenu(primaryStage));
-        
+
         HBox buttonBox = new HBox(10);
         buttonBox.getChildren().add(submitButton);
         buttonBox.getChildren().add(helpButton);
@@ -173,25 +171,25 @@ public class App extends Application {
     }
 
     // updated submit button to validate entry and clear the text fields when submit button in clicked.
-          private void submitButtonClicked() {
+    private void submitButtonClicked() {
         Validation v = new Validation();
         String errorMsg = "";
-         // Validate all entry text fields
+        // Validate all entry text fields
         errorMsg += v.isPresent(firstNameField.getText(), "First Name");
         errorMsg += v.isPresent(lastNameField.getText(), "Last Name");
         errorMsg += v.isPresent(teamNameField.getText(), "Team Name");
-        errorMsg += v.isDouble(inningsPitchedField.getText(), "Innings Pitched"); 
+        errorMsg += v.isDouble(inningsPitchedField.getText(), "Innings Pitched");
         errorMsg += v.isInteger(hitField.getText(), "Hit");
         errorMsg += v.isInteger(runField.getText(), "Run");
         errorMsg += v.isInteger(earnedRunField.getText(), "Earned Run");
         errorMsg += v.isInteger(walkField.getText(), "Walk");
         errorMsg += v.isInteger(strikeoutField.getText(), "Strikeout");
-         errorMsg += v.isInteger(atBatField.getText(), "At Bat");
-         errorMsg += v.isInteger(battersFacedField.getText(), "Batters Faced");
-         errorMsg += v.isInteger(numberOfPitchesField.getText(), "Number of Pitches");
-         errorMsg += v.isPresent(DateOfGameField.getText(), "Date of Game");
-        
-         // Retrieve data from the input fields - DG
+        errorMsg += v.isInteger(atBatField.getText(), "At Bat");
+        errorMsg += v.isInteger(battersFacedField.getText(), "Batters Faced");
+        errorMsg += v.isInteger(numberOfPitchesField.getText(), "Number of Pitches");
+        errorMsg += v.isPresent(DateOfGameField.getText(), "Date of Game");
+
+        // Retrieve data from the input fields - DG
         if (errorMsg.isEmpty()) {
             try {
                 String firstName = firstNameField.getText();
@@ -211,9 +209,9 @@ public class App extends Application {
                 // create instance of DatabaseManager class to connect to DB
                 DatabaseManager dbm = new DatabaseManager();
                 dbm.insertPlayerStats(firstName, lastName, teamName,
-                        inningsPitched, hit, run, earnedRuns, walk, strikeout, 
-                        atBat, battersFaced, numberOfPitches, dateOfGame); 
-                
+                        inningsPitched, hit, run, earnedRuns, walk, strikeout,
+                        atBat, battersFaced, numberOfPitches, dateOfGame);
+
             } catch (NumberFormatException e) {
                 // Handle parsing error (invalid double input)
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -226,7 +224,7 @@ public class App extends Application {
                 alert.setHeaderText("Data entry error");
                 alert.setContentText("There was an issue uploading the data\n"
                         + "to the database");
-                alert.showAndWait(); 
+                alert.showAndWait();
             }
         } else {
             // Show error message(s) for invalid input
@@ -236,14 +234,14 @@ public class App extends Application {
             alert.showAndWait();
         }
 
-    // Inform user that data has been entered into the database -TCP
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Submission Confirmation");
-            alert.setHeaderText("Form Submitted");
-            alert.setContentText("The form has been submitted.");
-            alert.showAndWait();
-              
-     // Clear text fields
+        // Inform user that data has been entered into the database -TCP
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Submission Confirmation");
+        alert.setHeaderText("Form Submitted");
+        alert.setContentText("The form has been submitted.");
+        alert.showAndWait();
+
+        // Clear text fields
         firstNameField.clear();
         lastNameField.clear();
         teamNameField.clear();
@@ -259,62 +257,99 @@ public class App extends Application {
         DateOfGameField.clear();
     }
 
-    
     // commented out - Not sure how this function will work with GUI -DG
     private void helpButtonClicked() {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Help Page");
-            alert.setHeaderText("Help");
-            alert.setContentText("Enter data for each pitcher whose stats you wish to record.\n"
-                    + "Press submit when finished to submit the stats.\n"
-            + "If you wish to stop entering data, press 'menu' to return \n"
-                    + "to the main menu.");
-            alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help Page");
+        alert.setHeaderText("Help");
+        alert.setContentText("Enter data for each pitcher whose stats you wish to record.\n"
+                + "Press submit when finished to submit the stats.\n"
+                + "If you wish to stop entering data, press 'menu' to return \n"
+                + "to the main menu.");
+        alert.showAndWait();
     }
+
+    private void generateReportMenu(Stage primaryStage) {
+    primaryStage.setTitle("Generate Report Menu");
+
+    GridPane grid = new GridPane();
+    grid.setAlignment(Pos.CENTER);
+    grid.setPadding(new Insets(25, 25, 25, 25));
+    grid.setHgap(10);
+    grid.setVgap(10);
+
+    Scene scene = new Scene(grid, 400, 200);
+
+    Button singleGameButton = new Button("Generate Single Game Report");
+    singleGameButton.setOnAction(event -> openReportsPage(primaryStage));
+
+    Button multiGameButton = new Button("Generate Season Summary");
+    multiGameButton.setOnAction(event -> openSummaryPage(primaryStage));
+
+    Button menuButton = new Button("Menu");
+    menuButton.setOnAction(event -> showMenu(primaryStage));
+
+    // Create a VBox for button alignment
+    VBox buttonBox = new VBox(10);
+    buttonBox.getChildren().addAll(singleGameButton, multiGameButton, menuButton);
+    buttonBox.setAlignment(Pos.CENTER);
+
+    grid.add(buttonBox, 0, 0);
+
+    primaryStage.setScene(scene);
+    primaryStage.show();
+}
 
     private void openReportsPage(Stage primaryStage) {
         // create grid, create scene -TCP
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-        grid.setHgap(10);
-        grid.setVgap(10);
-        
-        Scene scene = new Scene(grid, 400, 200);
-        
-        Label label = new Label("Generate Single Game Report");
-        label.setLineSpacing(5);
-        grid.add(label, 0, 0);
-        
-        Label gamesLabel = new Label("Select game by date: ");
-        label.setLineSpacing(5);
-        grid.add(gamesLabel, 0, 1);
-        
-        // create sample combo box
-        ArrayList<String> gameDates = new ArrayList<>();
-        ComboBox<String> gamesCombo = new ComboBox<>();
-        gamesCombo.setPromptText("Select Game");
-        for(String game : gameDates) {
-            gamesCombo.getItems().add(game);
-        }
-        grid.add(gamesCombo, 1, 1);
-        
-        // Create Submit, Help, and Exit buttons - TCP
-        Button submitButton = new Button("Generate");
-        // temp code
-        submitButton.setOnAction(event -> showMenu(primaryStage));
-       
-        Button menuButton = new Button("Menu");
-        menuButton.setOnAction(event -> showMenu(primaryStage));
-        
-        HBox buttonBox = new HBox(10);
-        buttonBox.getChildren().add(submitButton);
-        buttonBox.getChildren().add(menuButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        grid.add(buttonBox, 0, 3, 3, 1);
+        try {
+            GridPane grid = new GridPane();
+            grid.setAlignment(Pos.TOP_CENTER);
+            grid.setPadding(new Insets(25, 25, 25, 25));
+            grid.setHgap(10);
+            grid.setVgap(10);
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            Scene scene = new Scene(grid, 400, 200);
+
+            Label label = new Label("Generate Single Game Report");
+            label.setLineSpacing(5);
+            grid.add(label, 0, 0);
+
+            Label gamesLabel = new Label("Select game by date: ");
+            label.setLineSpacing(5);
+            grid.add(gamesLabel, 0, 1);
+
+            // create instance of DatabaseManager class to connect to DB
+            DatabaseManager dbm = new DatabaseManager();
+
+            // create sample combo box
+            ArrayList<String> gameDates = dbm.getGameDates();
+            ComboBox<String> gamesCombo = new ComboBox<>();
+            gamesCombo.setPromptText("Select Game");
+            for (String game : gameDates) {
+                gamesCombo.getItems().add(game);
+            }
+            grid.add(gamesCombo, 1, 1);
+
+            // Create Submit, Help, and Exit buttons - TCP
+            Button submitButton = new Button("Generate");
+            
+            submitButton.setOnAction(event -> generateSingleGameReport(gamesCombo.getSelectionModel().getSelectedItem())); // Pass selected game date
+
+            Button menuButton = new Button("Menu");
+            menuButton.setOnAction(event -> showMenu(primaryStage));
+
+            HBox buttonBox = new HBox(10);
+            buttonBox.getChildren().add(submitButton);
+            buttonBox.getChildren().add(menuButton);
+            buttonBox.setAlignment(Pos.CENTER);
+            grid.add(buttonBox, 0, 3, 3, 1);
+
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     private void openSummaryPage(Stage primaryStage) {
@@ -325,40 +360,41 @@ public class App extends Application {
             grid.setPadding(new Insets(25, 25, 25, 25));
             grid.setHgap(10);
             grid.setVgap(10);
-        
+
             Scene scene = new Scene(grid, 400, 200);
-        
+
             Label label = new Label("Generate Multiple-Game Summary");
             label.setLineSpacing(5);
             grid.add(label, 0, 0);
-        
+
             Label gamesLabel = new Label("Select game(s) by date: ");
             label.setLineSpacing(5);
             grid.add(gamesLabel, 0, 1);
-            
+
             // create instance of DatabaseManager class to connect to DB
             DatabaseManager dbm = new DatabaseManager();
-        
+
             // create game dates combo box
             ArrayList<String> gameDates = dbm.getGameDates();
-            ArrayList<String> selectedGames = new ArrayList<>();
             ComboBox<String> gamesCombo = new ComboBox<>();
             gamesCombo.setPromptText("Select Game");
-            for(String game : gameDates) {
+            for (String game : gameDates) {
                 gamesCombo.getItems().add(game);
             }
             grid.add(gamesCombo, 2, 1);
-        
+
             // Create Add, Generate, and Menu buttons - TCP
+            ArrayList<String> selectedGames = new ArrayList<>();
+
             Button addButton = new Button("Add");
             addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), selectedGames));
-        
+
             Button submitButton = new Button("Generate");
             submitButton.setOnAction(event -> generateSummary(gameDates));
-       
+
             Button menuButton = new Button("Menu");
             menuButton.setOnAction(event -> showMenu(primaryStage));
-        
+
             HBox buttonBox = new HBox(10);
             buttonBox.getChildren().add(addButton);
             buttonBox.getChildren().add(submitButton);
@@ -374,38 +410,88 @@ public class App extends Application {
     }
 
     private void addToSummary(String gameDate, ArrayList<String> datesList) {
-        if (datesList.contains(gameDate)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        // Added data validation-JP
+        if (gameDate == null || gameDate.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Game Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a game before adding to summary.");
+            alert.showAndWait();
+        } else {
+            if (datesList.contains(gameDate)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Submission Confirmation");
                 alert.setHeaderText("Invalid Submission");
                 alert.setContentText("The selected game is already in the summary.");
                 alert.showAndWait();
-        } else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Submission Confirmation");
                 alert.setHeaderText("Game added");
                 alert.setContentText("Game has been added to summary.");
                 alert.showAndWait();
-            
-            datesList.add(gameDate);
+
+                datesList.add(gameDate);
+            }
         }
     }
-    
-    private void generateSummary(ArrayList<String> datesList) {
-        Collections.sort(datesList);
-        String firstGame = datesList.get(0);
-        String lastGame = datesList.get(datesList.size() - 1);
-        String filename = firstGame + "-" + lastGame + ".txt";
-        System.out.println(filename);
-        MultiGameReport summary = new MultiGameReport(datesList, filename);
-        summary.generateTotalStatisticsReport();
+    private void generateSingleGameReport(String selectedGameDate) {
+    // Added method data validation-JP
+    if (selectedGameDate == null || selectedGameDate.isEmpty()) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("No Game Selected");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select a game before generating the report.");
+        alert.showAndWait();
+    } else {
+        try {
+            String outputFileName = "game.txt"; // Define the output file name
+            SingleGameReport report = new SingleGameReport(selectedGameDate, outputFileName);
+            report.generateReport();
+        } catch (Exception e) {
+            // Handle any exceptions
+            e.printStackTrace();
+        }
     }
+}
+
+    private void generateSummary(ArrayList<String> datesList) {
+    // Added data validation-JP
+    if (datesList.isEmpty()) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("No Game Selected");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select at least one game before generating the summary.");
+        alert.showAndWait();
+    } else {
+        boolean invalidSelection = false;
+        for (String selectedGameDate : datesList) {
+            if (selectedGameDate.equals("Select Game")) {
+                invalidSelection = true;
+            }
+        }
+
+        if (invalidSelection) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a valid game before generating the summary.");
+            alert.showAndWait();
+        } else {
+            Collections.sort(datesList);
+            String filename = "summary.txt";
+            MultiGameReport summary = new MultiGameReport(datesList, filename);
+            summary.generateTotalStatisticsReport();
+        }
+    }
+}
 
     private void exitButtonClicked() {
         System.exit(0);   // 0 indicates a normal exit
     }
-    
+
     public static void main(String[] args) {
         launch(args);
-    }    
+    }
 }
