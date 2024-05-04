@@ -10,25 +10,51 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.scene.control.Alert;
 
 public class MultiGameReport {
 
     private List<String> gameDates;
-    private String outputFilePath;
+    private String outputFileName;
 
-    public MultiGameReport(List<String> gameDates, String outputFilePath) {
+    public MultiGameReport(List<String> gameDates, String outputFileName) {
         this.gameDates = gameDates;
-        this.outputFilePath = outputFilePath;
+        this.outputFileName = outputFileName;
     }
 
-   public void generateTotalStatisticsReport() {
+  public void generateTotalStatisticsReport() {
+    // Mapping between full text and abbreviations
+    Map<String, String> abbreviationMap = new HashMap<>();
+    abbreviationMap.put("Innings Pitched", "IP");
+    abbreviationMap.put("Hits", "H");
+    abbreviationMap.put("Runs", "R");
+    abbreviationMap.put("Earned Runs", "ER");
+    abbreviationMap.put("Walks", "BB");
+    abbreviationMap.put("Strikeouts", "SO");
+    abbreviationMap.put("At Bats", "AB");
+    abbreviationMap.put("Batters Faced", "BF");
+    abbreviationMap.put("Number of Pitches", "NP");
+
+    // Sort the legend entries alphabetically
+    List<Map.Entry<String, String>> sortedAbbreviationList = new ArrayList<>(abbreviationMap.entrySet());
+    sortedAbbreviationList.sort(Map.Entry.comparingByKey());
+
+    // Legend explaining the abbreviations
+    StringBuilder legendBuilder = new StringBuilder();
+    legendBuilder.append("Legend:\n");
+    for (Map.Entry<String, String> entry : sortedAbbreviationList) {
+        legendBuilder.append(entry.getValue()).append(": ").append(entry.getKey()).append("\n");
+    }
+    String legend = legendBuilder.toString();
+
     try (Connection connection = DriverManager.getConnection("jdbc:sqlite:pitcher_stats.sqlite")) {
         List<String> reportLines = new ArrayList<>();
-        reportLines.add("Total Statistics Summary:");
+        reportLines.add("Season Summary:");
         reportLines.add("");
-        reportLines.add("Player\tInnings Pitched\tHits\tRuns\tEarned Runs\tWalks\tStrikeouts\tAt Bats\tBatters Faced\tNumber of Pitches");
+        reportLines.add(String.format("%-20s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s", "Player", "IP", "H", "R", "ER", "BB", "SO", "AB", "BF", "NP"));
 
         String selectSQL = "SELECT FirstName, LastName, " +
                 "SUM(InningsPitched) AS TotalInningsPitched, " +
@@ -57,25 +83,52 @@ public class MultiGameReport {
             
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    StringBuilder lineBuilder = new StringBuilder();
                     String firstName = rs.getString("FirstName");
                     String lastName = rs.getString("LastName");
-                    double inningsPitched = rs.getDouble("TotalInningsPitched");
-                    int hits = rs.getInt("TotalHits");
-                    int runs = rs.getInt("TotalRuns");
-                    int earnedRuns = rs.getInt("TotalEarnedRuns");
-                    int walks = rs.getInt("TotalWalks");
-                    int strikeouts = rs.getInt("TotalStrikeouts");
-                    int atBats = rs.getInt("TotalAtBats");
-                    int battersFaced = rs.getInt("TotalBattersFaced");
-                    int numberOfPitches = rs.getInt("TotalNumberOfPitches");
+                    lineBuilder.append(String.format("%-20s", firstName + " " + lastName));
 
-                    String line = String.format("%s %s\t%.1f\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d",
-                            firstName, lastName, inningsPitched, hits, runs, earnedRuns,
-                            walks, strikeouts, atBats, battersFaced, numberOfPitches);
+                    double inningsPitched = rs.getDouble("TotalInningsPitched");
+                    lineBuilder.append(String.format("%-5.1f", inningsPitched));
+
+                    int hits = rs.getInt("TotalHits");
+                    lineBuilder.append(String.format("%-5d", hits));
+
+                    int runs = rs.getInt("TotalRuns");
+                    lineBuilder.append(String.format("%-5d", runs));
+
+                    int earnedRuns = rs.getInt("TotalEarnedRuns");
+                    lineBuilder.append(String.format("%-5d", earnedRuns));
+
+                    int walks = rs.getInt("TotalWalks");
+                    lineBuilder.append(String.format("%-5d", walks));
+
+                    int strikeouts = rs.getInt("TotalStrikeouts");
+                    lineBuilder.append(String.format("%-5d", strikeouts));
+
+                    int atBats = rs.getInt("TotalAtBats");
+                    lineBuilder.append(String.format("%-5d", atBats));
+
+                    int battersFaced = rs.getInt("TotalBattersFaced");
+                    lineBuilder.append(String.format("%-5d", battersFaced));
+
+                    int numberOfPitches = rs.getInt("TotalNumberOfPitches");
+                    lineBuilder.append(String.format("%-5d", numberOfPitches));
+
+                    // Replace full text with abbreviations
+                    String line = lineBuilder.toString();
+                    for (Map.Entry<String, String> entry : abbreviationMap.entrySet()) {
+                        line = line.replaceAll(entry.getKey(), entry.getValue());
+                    }
+
                     reportLines.add(line);
                 }
             }
         }
+
+        // Add legend to the report
+        reportLines.add("");
+        reportLines.add(legend);
 
         writeReportToFile(reportLines);
     } catch (SQLException | IOException e) {
@@ -85,18 +138,18 @@ public class MultiGameReport {
 
 
     private void writeReportToFile(List<String> reportLines) throws IOException {
-        try (FileWriter writer = new FileWriter(outputFilePath)) {
+        try (FileWriter writer = new FileWriter(outputFileName)) { // Use outputFileName
             for (String line : reportLines) {
                 writer.write(line + "\n");
             }
         }
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Summary Generated");
-                alert.setHeaderText("Summary Generated");
-                alert.setContentText("Your season summary has been generated.\n"
-                        + "Please check your files for a file named \n" + outputFilePath);
-                alert.showAndWait();
+        alert.setTitle("Message");
+        alert.setHeaderText("Summary Generated");
+        alert.setContentText("Your season summary has been generated.\n"
+                + "Please check your files for a file named \n" + outputFileName);
+        alert.showAndWait();
     }
 }
 
