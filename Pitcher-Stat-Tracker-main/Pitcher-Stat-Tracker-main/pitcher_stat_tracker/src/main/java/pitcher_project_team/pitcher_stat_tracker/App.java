@@ -294,7 +294,7 @@ public class App extends Application {
         ArrayList<String> gameDates = new ArrayList<>();
         ComboBox<String> gamesCombo = new ComboBox<>();
         gamesCombo.setPromptText("Select Game");
-        for(String game : sampleDates) {
+        for(String game : gameDates) {
             gamesCombo.getItems().add(game);
         }
         grid.add(gamesCombo, 1, 1);
@@ -336,10 +336,10 @@ public class App extends Application {
         grid.add(gamesLabel, 0, 1);
         
         // create sample combo box
-        String[] sampleDates = {"04-27-2024", "05-04-2024", "05-11-2024", "05-18-2024"};
+        ArrayList<String> gameDates = new ArrayList<>();
         ComboBox<String> gamesCombo = new ComboBox<>();
         gamesCombo.setPromptText("Select Game");
-        for(String game : sampleDates) {
+        for(String game : gameDates) {
             gamesCombo.getItems().add(game);
         }
         grid.add(gamesCombo, 2, 1);
@@ -349,7 +349,7 @@ public class App extends Application {
         addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), gameDates));
         
         Button submitButton = new Button("Generate");
-        submitButton.setOnAction(event -> generateSummary(gameDates);
+        submitButton.setOnAction(event -> generateSummary(gameDates));
        
         Button menuButton = new Button("Menu");
         menuButton.setOnAction(event -> showMenu(primaryStage));
