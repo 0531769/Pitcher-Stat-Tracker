@@ -9,6 +9,7 @@
 package pitcher_project_team.pitcher_stat_tracker;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseManager {
     private static Connection connection;
@@ -43,7 +44,25 @@ public class DatabaseManager {
         }
     }
 
-    public ArrayList<String> getGameDates() {
+    // retrieves game dates from database, stores in gameDates arraylist
+    public ArrayList<String> getGameDates() throws SQLException {
+        ArrayList<String> gameDates = new ArrayList<>();
         
+        String selectSQL = "SELECT dateOfGame"
+                            + " FROM PitcherStats";
+        try (Statement cs = connection.createStatement();
+             ResultSet resultSet = cs.executeQuery(selectSQL)) {
+            while (resultSet.next()) {
+                String dateOfGame = resultSet.getString("dateOfGame");
+                gameDates.add(dateOfGame);
+            }
+        }
+        return gameDates;
+    }
+    
+    public void closeConnection() throws SQLException {
+        if (connection != null) {
+            connection.close();
+        }
     }
 }
