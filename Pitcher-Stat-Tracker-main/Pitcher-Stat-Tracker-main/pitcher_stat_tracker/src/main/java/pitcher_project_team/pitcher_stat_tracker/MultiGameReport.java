@@ -95,7 +95,7 @@ public class MultiGameReport {
                 alert.setTitle("Summary Generated");
                 alert.setHeaderText("Summary Generated");
                 alert.setContentText("Your season summary has been generated.\n"
-                        + "Please check your files for a file named " + outputFilePath);
+                        + "Please check your files for a file named \n" + outputFilePath);
                 alert.showAndWait();
     }
 }
