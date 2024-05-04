@@ -10,65 +10,117 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.scene.control.Alert;
 
 public class SingleGameReport {
 
     private String selectedGameDate;
-    private String outputFilePath;
+    private String outputFileName;
 
-    public SingleGameReport(String selectedGameDate, String outputFilePath) {
+    public SingleGameReport(String selectedGameDate, String outputFileName) {
         this.selectedGameDate = selectedGameDate;
-        this.outputFilePath = outputFilePath;
+        this.outputFileName = outputFileName;
     }
 
-    public void generateReport() {
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:pitcher_stats.sqlite")) {
-            List<String> reportLines = new ArrayList<>();
-            reportLines.add("Single Game Summary Page:");
-            reportLines.add("");
-            reportLines.add("First Name\tLast Name\tTeam Name\tInnings Pitched\tHits\tRuns\t" +
-                    "Earned Runs\tWalks\tStrikeouts\tAt Bats\tBatters Faced\tNumber of Pitches");
+  public void generateReport() {
+      // Mapping between full text and abbreviations
+    Map<String, String> abbreviationMap = new HashMap<>();
+    abbreviationMap.put("Innings Pitched", "IP");
+    abbreviationMap.put("Hits", "H");
+    abbreviationMap.put("Runs", "R");
+    abbreviationMap.put("Earned Runs", "ER");
+    abbreviationMap.put("Walks", "BB");
+    abbreviationMap.put("Strikeouts", "SO");
+    abbreviationMap.put("At Bats", "AB");
+    abbreviationMap.put("Batters Faced", "BF");
+    abbreviationMap.put("Number of Pitches", "NP");
+    
+     // Sort the legend entries alphabetically
+    List<Map.Entry<String, String>> sortedAbbreviationList = new ArrayList<>(abbreviationMap.entrySet());
+    sortedAbbreviationList.sort(Map.Entry.comparingByKey());
+    
+     // Legend explaining the abbreviations
+    StringBuilder legendBuilder = new StringBuilder();
+    legendBuilder.append("Legend:\n");
+    for (Map.Entry<String, String> entry : sortedAbbreviationList) {
+        legendBuilder.append(entry.getValue()).append(": ").append(entry.getKey()).append("\n");
+    }
+    String legend = legendBuilder.toString();
+    
+    try (Connection connection = DriverManager.getConnection("jdbc:sqlite:pitcher_stats.sqlite")) {
+        List<String> reportLines = new ArrayList<>();
+        reportLines.add("Game Summary:");
+        reportLines.add("");
+        reportLines.add(String.format("%-20s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s",
+                "Player", "IP", "H", "R", "ER", "BB", "SO", "AB", "BF", "NP"));
 
-            String selectSQL = "SELECT * FROM PitcherStats WHERE DateOfGame = ?";
+        String selectSQL = "SELECT * FROM PitcherStats WHERE DateOfGame = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(selectSQL)) {
+            ps.setString(1, selectedGameDate);
             
-            try (PreparedStatement ps = connection.prepareStatement(selectSQL)) {
-                ps.setString(1, selectedGameDate);
-                
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        String firstName = rs.getString("FirstName");
-                        String lastName = rs.getString("LastName");
-                        String teamName = rs.getString("TeamName");
-                        double inningsPitched = rs.getDouble("InningsPitched");
-                        int hits = rs.getInt("Hits");
-                        int runs = rs.getInt("Runs");
-                        int earnedRuns = rs.getInt("EarnedRuns");
-                        int walks = rs.getInt("Walks");
-                        int strikeouts = rs.getInt("Strikeouts");
-                        int atBats = rs.getInt("AtBats");
-                        int battersFaced = rs.getInt("BattersFaced");
-                        int numberOfPitches = rs.getInt("NumberOfPitches");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    StringBuilder lineBuilder = new StringBuilder();
+                    String firstName = rs.getString("FirstName");
+                    String lastName = rs.getString("LastName");
+                    double inningsPitched = rs.getDouble("InningsPitched");
+                    int hits = rs.getInt("Hits");
+                    int runs = rs.getInt("Runs");
+                    int earnedRuns = rs.getInt("EarnedRuns");
+                    int walks = rs.getInt("Walks");
+                    int strikeouts = rs.getInt("Strikeouts");
+                    int atBats = rs.getInt("AtBats");
+                    int battersFaced = rs.getInt("BattersFaced");
+                    int numberOfPitches = rs.getInt("NumberOfPitches");
 
-                        String line = String.format("%s\t%s\t%s\t%.1f\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d",
-                                firstName, lastName, teamName, inningsPitched, hits, runs, earnedRuns,
-                                walks, strikeouts, atBats, battersFaced, numberOfPitches);
-                        reportLines.add(line);
+                    // Format the line with appropriate spacing
+                    lineBuilder.append(String.format("%-20s", firstName + " " + lastName));
+                    lineBuilder.append(String.format("%-5.1f", inningsPitched));
+                    lineBuilder.append(String.format("%-5d", hits));
+                    lineBuilder.append(String.format("%-5d", runs));
+                    lineBuilder.append(String.format("%-5d", earnedRuns));
+                    lineBuilder.append(String.format("%-5d", walks));
+                    lineBuilder.append(String.format("%-5d", strikeouts));
+                    lineBuilder.append(String.format("%-5d", atBats));
+                    lineBuilder.append(String.format("%-5d", battersFaced));
+                    lineBuilder.append(String.format("%-5d", numberOfPitches));
+
+                    // Replace full text with abbreviations
+                    String line = lineBuilder.toString();
+                    for (Map.Entry<String, String> entry : abbreviationMap.entrySet()) {
+                        line = line.replaceAll(entry.getKey(), entry.getValue());
                     }
+
+                    reportLines.add(line);
                 }
             }
-
-            writeReportToFile(reportLines);
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
         }
-    }
+        
+        // Add legend to the report
+        reportLines.add("");
+        reportLines.add(legend);
 
+       
+        writeReportToFile(reportLines);
+    } catch (SQLException | IOException e) {
+        e.printStackTrace();
+    }
+}
     private void writeReportToFile(List<String> reportLines) throws IOException {
-        try (FileWriter writer = new FileWriter(outputFilePath)) {
+        try (FileWriter writer = new FileWriter(outputFileName)) {
             for (String line : reportLines) {
                 writer.write(line + "\n");
             }
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Message");
+        alert.setHeaderText("Report Generated");
+        alert.setContentText("Your single game report has been generated.\n"
+                + "Please check your files for a file named \n" + outputFileName);
+        alert.showAndWait();
     }
 }
