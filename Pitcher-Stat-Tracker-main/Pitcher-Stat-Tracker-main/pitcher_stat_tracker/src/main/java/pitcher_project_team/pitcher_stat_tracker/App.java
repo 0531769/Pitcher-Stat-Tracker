@@ -318,51 +318,59 @@ public class App extends Application {
     }
 
     private void openSummaryPage(Stage primaryStage) {
-        // create grid, create scene -TCP
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-        grid.setHgap(10);
-        grid.setVgap(10);
+        try {
+            // create grid, create scene -TCP
+            GridPane grid = new GridPane();
+            grid.setAlignment(Pos.TOP_CENTER);
+            grid.setPadding(new Insets(25, 25, 25, 25));
+            grid.setHgap(10);
+            grid.setVgap(10);
         
-        Scene scene = new Scene(grid, 400, 200);
+            Scene scene = new Scene(grid, 400, 200);
         
-        Label label = new Label("Generate Single Game Report");
-        label.setLineSpacing(5);
-        grid.add(label, 0, 0);
+            Label label = new Label("Generate Multiple-Game Summary");
+            label.setLineSpacing(5);
+            grid.add(label, 0, 0);
         
-        Label gamesLabel = new Label("Select game(s) by date: ");
-        label.setLineSpacing(5);
-        grid.add(gamesLabel, 0, 1);
+            Label gamesLabel = new Label("Select game(s) by date: ");
+            label.setLineSpacing(5);
+            grid.add(gamesLabel, 0, 1);
+            
+            // create instance of DatabaseManager class to connect to DB
+            DatabaseManager dbm = new DatabaseManager();
         
-        // create sample combo box
-        ArrayList<String> gameDates = new ArrayList<>();
-        ComboBox<String> gamesCombo = new ComboBox<>();
-        gamesCombo.setPromptText("Select Game");
-        for(String game : gameDates) {
-            gamesCombo.getItems().add(game);
-        }
-        grid.add(gamesCombo, 2, 1);
+            // create game dates combo box
+            ArrayList<String> gameDates = dbm.getGameDates();
+            ArrayList<String> selectedGames = new ArrayList<>();
+            ComboBox<String> gamesCombo = new ComboBox<>();
+            gamesCombo.setPromptText("Select Game");
+            for(String game : gameDates) {
+                gamesCombo.getItems().add(game);
+            }
+            grid.add(gamesCombo, 2, 1);
         
-        // Create Add, Generate, and Menu buttons - TCP
-        Button addButton = new Button("Add");
-        addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), gameDates));
+            // Create Add, Generate, and Menu buttons - TCP
+            Button addButton = new Button("Add");
+            addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), selectedGames));
         
-        Button submitButton = new Button("Generate");
-        submitButton.setOnAction(event -> generateSummary(gameDates));
+            Button submitButton = new Button("Generate");
+            submitButton.setOnAction(event -> generateSummary(gameDates));
        
-        Button menuButton = new Button("Menu");
-        menuButton.setOnAction(event -> showMenu(primaryStage));
+            Button menuButton = new Button("Menu");
+            menuButton.setOnAction(event -> showMenu(primaryStage));
         
-        HBox buttonBox = new HBox(10);
-        buttonBox.getChildren().add(addButton);
-        buttonBox.getChildren().add(submitButton);
-        buttonBox.getChildren().add(menuButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        grid.add(buttonBox, 0, 3, 3, 1);
+            HBox buttonBox = new HBox(10);
+            buttonBox.getChildren().add(addButton);
+            buttonBox.getChildren().add(submitButton);
+            buttonBox.getChildren().add(menuButton);
+            buttonBox.setAlignment(Pos.CENTER);
+            grid.add(buttonBox, 0, 3, 3, 1);
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     private void addToSummary(String gameDate, ArrayList<String> datesList) {
