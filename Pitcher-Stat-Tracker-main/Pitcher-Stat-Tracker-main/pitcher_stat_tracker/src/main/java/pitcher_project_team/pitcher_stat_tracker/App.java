@@ -390,7 +390,7 @@ public class App extends Application {
             addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), selectedGames));
 
             Button submitButton = new Button("Generate");
-            submitButton.setOnAction(event -> generateSummary(gameDates));
+            submitButton.setOnAction(event -> generateSummary(SelectedGames));
 
             Button menuButton = new Button("Menu");
             menuButton.setOnAction(event -> showMenu(primaryStage));
