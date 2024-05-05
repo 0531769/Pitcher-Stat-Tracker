@@ -390,7 +390,8 @@ public class App extends Application {
             addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), selectedGames));
 
             Button submitButton = new Button("Generate");
-            submitButton.setOnAction(event -> generateSummary(SelectedGames));
+            submitButton.setOnAction(event -> {generateSummary(SelectedGames);
+                                               );
 
             Button menuButton = new Button("Menu");
             menuButton.setOnAction(event -> showMenu(primaryStage));
@@ -446,7 +447,7 @@ public class App extends Application {
         alert.showAndWait();
     } else {
         try {
-            String outputFileName = "game.txt"; // Define the output file name
+            String outputFileName = selectedGameDate; // Define the output file name
             SingleGameReport report = new SingleGameReport(selectedGameDate, outputFileName);
             report.generateReport();
         } catch (Exception e) {
