@@ -48,7 +48,7 @@ public class DatabaseManager {
     public ArrayList<String> getGameDates() throws SQLException {
         ArrayList<String> gameDates = new ArrayList<>();
         
-        String selectSQL = "SELECT dateOfGame"
+        String selectSQL = "SELECT DISTINCT dateOfGame"
                             + " FROM PitcherStats";
         try (Statement cs = connection.createStatement();
              ResultSet resultSet = cs.executeQuery(selectSQL)) {
