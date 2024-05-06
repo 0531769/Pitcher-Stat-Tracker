@@ -212,6 +212,13 @@ public class App extends Application {
                         inningsPitched, hit, run, earnedRuns, walk, strikeout,
                         atBat, battersFaced, numberOfPitches, dateOfGame);
 
+                // Inform user that data has been entered into the database -TCP
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Submission Confirmation");
+                alert.setHeaderText("Form Submitted");
+                alert.setContentText("The form has been submitted.");
+                alert.showAndWait();
+
             } catch (NumberFormatException e) {
                 // Handle parsing error (invalid double input)
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -233,13 +240,6 @@ public class App extends Application {
             alert.setContentText(errorMsg);
             alert.showAndWait();
         }
-
-        // Inform user that data has been entered into the database -TCP
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Submission Confirmation");
-        alert.setHeaderText("Form Submitted");
-        alert.setContentText("The form has been submitted.");
-        alert.showAndWait();
 
         // Clear text fields
         firstNameField.clear();
@@ -390,7 +390,7 @@ public class App extends Application {
             addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), selectedGames));
 
             Button submitButton = new Button("Generate");
-            submitButton.setOnAction(event -> {generateSummary(SelectedGames);
+            submitButton.setOnAction(event -> {generateSummary(selectedGames);
                                                );
 
             Button menuButton = new Button("Menu");
@@ -413,16 +413,16 @@ public class App extends Application {
     private void addToSummary(String gameDate, ArrayList<String> datesList) {
         // Added data validation-JP
         if (gameDate == null || gameDate.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No Game Selected");
             alert.setHeaderText(null);
             alert.setContentText("Please select a game before adding to summary.");
             alert.showAndWait();
         } else {
             if (datesList.contains(gameDate)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Submission Confirmation");
-                alert.setHeaderText("Invalid Submission");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Submission");
+                alert.setHeaderText("null");
                 alert.setContentText("The selected game is already in the summary.");
                 alert.showAndWait();
 
@@ -440,14 +440,14 @@ public class App extends Application {
     private void generateSingleGameReport(String selectedGameDate) {
     // Added method data validation-JP
     if (selectedGameDate == null || selectedGameDate.isEmpty()) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("No Game Selected");
         alert.setHeaderText(null);
         alert.setContentText("Please select a game before generating the report.");
         alert.showAndWait();
     } else {
         try {
-            String outputFileName = selectedGameDate; // Define the output file name
+            String outputFileName = selectedGameDate + ".txt"; // Define the output file name
             SingleGameReport report = new SingleGameReport(selectedGameDate, outputFileName);
             report.generateReport();
         } catch (Exception e) {
@@ -460,7 +460,7 @@ public class App extends Application {
     private void generateSummary(ArrayList<String> datesList) {
     // Added data validation-JP
     if (datesList.isEmpty()) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("No Game Selected");
         alert.setHeaderText(null);
         alert.setContentText("Please select at least one game before generating the summary.");
@@ -474,16 +474,21 @@ public class App extends Application {
         }
 
         if (invalidSelection) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid Selection");
             alert.setHeaderText(null);
             alert.setContentText("Please select a valid game before generating the summary.");
             alert.showAndWait();
         } else {
             Collections.sort(datesList);
-            String filename = "summary.txt";
-            MultiGameReport summary = new MultiGameReport(datesList, filename);
-            summary.generateTotalStatisticsReport();
+                // Get the first and last game dates
+                String firstGame = datesList.get(0);
+                String lastGame = datesList.get(datesList.size() - 1);
+
+                // Generate the filename
+                String filename = firstGame + "-" + lastGame + ".txt";
+                MultiGameReport summary = new MultiGameReport(datesList, filename);
+                summary.generateTotalStatisticsReport();
         }
     }
 }
