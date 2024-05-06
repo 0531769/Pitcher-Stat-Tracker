@@ -19,8 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import java.util.Collections;
 import java.util.ArrayList;
 import javafx.scene.layout.VBox;
