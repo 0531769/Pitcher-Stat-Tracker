@@ -255,7 +255,7 @@ public class App extends Application {
         DateOfGameField.clear();
     }
 
-    // commented out - Not sure how this function will work with GUI -DG
+    // help button function -DG
     private void helpButtonClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help Page");
@@ -388,8 +388,7 @@ public class App extends Application {
             addButton.setOnAction(event -> addToSummary(gamesCombo.getSelectionModel().getSelectedItem(), selectedGames));
 
             Button submitButton = new Button("Generate");
-            submitButton.setOnAction(event -> {generateSummary(selectedGames);
-                                               );
+            submitButton.setOnAction(event -> generateSummary(selectedGames));
 
             Button menuButton = new Button("Menu");
             menuButton.setOnAction(event -> showMenu(primaryStage));
