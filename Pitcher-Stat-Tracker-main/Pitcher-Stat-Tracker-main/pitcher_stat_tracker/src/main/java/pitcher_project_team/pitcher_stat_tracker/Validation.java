@@ -19,8 +19,8 @@ public class Validation  {
         if (value.isEmpty()) {
             msg = name + " is required." + lineEnd;
        //  make sure string begins and ends with letters   
-        }else if (!value.matches("^[A-Z][a-z]+?")) {
-            msg = "Invalid " + name + ". Please enter a valid name." + lineEnd;
+       // }else if (!value.matches("^[A-Z][a-z]+?")) {
+       //     msg = "Invalid " + name + ". Please enter a valid name." + lineEnd;
         }
         return msg;
         }
