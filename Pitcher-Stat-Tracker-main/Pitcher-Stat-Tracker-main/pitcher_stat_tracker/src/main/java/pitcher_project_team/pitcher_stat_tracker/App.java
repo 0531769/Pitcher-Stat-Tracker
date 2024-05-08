@@ -54,6 +54,12 @@ public class App extends Application {
     grid.setVgap(10);
 
     Scene scene = new Scene(grid, 600, 200);
+
+    // add title
+    Label title = new Label("***  Welcome to the Pitcher Statistics Tracker  ***\n"
+            + "         Select a option from the menu below.");
+    title.setLineSpacing(10);
+    grid.add(title, 0, 0);
     
     // Create buttons
     Button submitButton = new Button("Enter Player Stats");
@@ -294,7 +300,13 @@ public class App extends Application {
     grid.setHgap(10);
     grid.setVgap(10);
 
-    Scene scene = new Scene(grid, 400, 200);
+    Scene scene = new Scene(grid, 600, 200);
+
+    // add instructions
+    Label instructions = new Label("                Select a Single Game Report to view stats for all pitchers in a game.\n"
+            + "Select a Season Summary to view a summary of the stats of pitchers over multiple games.");
+    instructions.setLineSpacing(10);
+    grid.add(instructions, 0, 0);
 
     Button singleGameButton = new Button("Generate Single Game Report");
     singleGameButton.setOnAction(event -> openReportsPage(primaryStage));
