@@ -147,7 +147,7 @@ public class App extends Application {
         DateOfGameField = new TextField();
         grid.add(DateOfGameField, 1, 13);
 
-        // Create Submit, Help, and Exit buttons - DG
+        // Create Submit, Help, Exit, and Reset buttons - DG
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> submitButtonClicked());
 
@@ -157,10 +157,28 @@ public class App extends Application {
         Button menuButton = new Button("Menu");
         menuButton.setOnAction(event -> showMenu(primaryStage));
 
+        Button resetButton = new Button("Reset");
+        resetButton.setOnAction(event -> {
+        firstNameField.clear();
+        lastNameField.clear();
+        teamNameField.clear();
+        inningsPitchedField.clear();
+        hitField.clear();
+        runField.clear();
+        earnedRunField.clear();
+        walkField.clear();
+        strikeoutField.clear();
+        atBatField.clear();
+        battersFacedField.clear();
+        numberOfPitchesField.clear();
+        DateOfGameField.clear();
+        });    
+
         HBox buttonBox = new HBox(10);
         buttonBox.getChildren().add(submitButton);
         buttonBox.getChildren().add(helpButton);
         buttonBox.getChildren().add(menuButton);
+        buttonBox.getChildren().add(resetButton);
         buttonBox.setAlignment(Pos.BOTTOM_CENTER);
         grid.add(buttonBox, 0, 14, 3, 1);
 
