@@ -322,7 +322,7 @@ public class App extends Application {
     buttonBox.getChildren().addAll(singleGameButton, multiGameButton, menuButton);
     buttonBox.setAlignment(Pos.CENTER);
 
-    grid.add(buttonBox, 0, 0);
+    grid.add(buttonBox, 0, 1);
 
     primaryStage.setScene(scene);
     primaryStage.show();
