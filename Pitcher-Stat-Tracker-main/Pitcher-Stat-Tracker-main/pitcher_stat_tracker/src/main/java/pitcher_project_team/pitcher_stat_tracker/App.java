@@ -209,7 +209,24 @@ public class App extends Application {
         errorMsg += v.isInteger(atBatField.getText(), "At Bat");
         errorMsg += v.isInteger(battersFacedField.getText(), "Batters Faced");
         errorMsg += v.isInteger(numberOfPitchesField.getText(), "Number of Pitches");
-        errorMsg += v.isPresent(DateOfGameField.getText(), "Date of Game");
+        //errorMsg += v.isPresent(DateOfGameField.getText(), "Date of Game");
+
+        
+        // input date to strict format (MM-DD-YYYY) - DG
+        String inputDateString = DateOfGameField.getText();
+        
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("MM-dd-yyyy");
+            inputFormat.setLenient(false); 
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+            Date inputDate = inputFormat.parse(inputDateString);
+            String formattedDate = outputFormat.format(inputDate);
+
+            DateOfGameField.setText(formattedDate);
+       } catch (ParseException e) {
+            errorMsg += "Invalid date format. Please enter a valid date in MM-DD-YYYY.";
+            }
 
         // Retrieve data from the input fields - DG
         if (errorMsg.isEmpty()) {
@@ -263,21 +280,6 @@ public class App extends Application {
             alert.showAndWait();
         }
 
-        // Clear text fields
-        firstNameField.clear();
-        lastNameField.clear();
-        teamNameField.clear();
-        inningsPitchedField.clear();
-        hitField.clear();
-        runField.clear();
-        earnedRunField.clear();
-        walkField.clear();
-        strikeoutField.clear();
-        atBatField.clear();
-        battersFacedField.clear();
-        numberOfPitchesField.clear();
-        DateOfGameField.clear();
-    }
 
     // help button function -DG
     private void helpButtonClicked() {
