@@ -282,6 +282,7 @@ public class App extends Application {
             alert.setContentText(errorMsg);
             alert.showAndWait();
         }
+    }
 
 
     // help button function -DG
