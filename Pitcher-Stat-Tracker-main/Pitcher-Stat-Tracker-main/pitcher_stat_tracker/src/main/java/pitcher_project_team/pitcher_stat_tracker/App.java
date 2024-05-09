@@ -520,7 +520,7 @@ public class App extends Application {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("No Game Selected");
         alert.setHeaderText(null);
-        alert.setContentText("Please select at least one game before generating the summary.");
+        alert.setContentText("Please add at least one game before generating the summary.");
         alert.showAndWait();
     } else {
         boolean invalidSelection = false;
