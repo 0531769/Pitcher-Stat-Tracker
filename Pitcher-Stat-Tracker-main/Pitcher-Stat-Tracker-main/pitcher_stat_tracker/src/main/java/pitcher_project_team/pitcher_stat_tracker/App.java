@@ -27,7 +27,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class App extends Application {
 
     private TextField firstNameField;
@@ -86,7 +85,6 @@ public class App extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 }
-
 
     public void openPitcherPage(Stage primaryStage) {
         primaryStage.setTitle("Pitcher Statistics");
@@ -157,12 +155,6 @@ public class App extends Application {
         grid.add(new Label("Date of Game \n(MM-DD-YYYY):"), 0, 13);
         DateOfGameField = new TextField();
         grid.add(DateOfGameField, 1, 13);
-        
-
-        
-        
-        
-        
 
         // Create Submit, Help, Exit, and Reset buttons - DG
         Button submitButton = new Button("Submit");
@@ -222,7 +214,6 @@ public class App extends Application {
         errorMsg += v.isInteger(numberOfPitchesField.getText(), "Number of Pitches");
         //errorMsg += v.isPresent(DateOfGameField.getText(), "Date of Game");
           
-        
     // input date to strict format (MM-DD-YYYY) - DG
     String inputDateString = DateOfGameField.getText();
         
@@ -238,7 +229,6 @@ public class App extends Application {
     } catch (ParseException e) {
         errorMsg += "Invalid date format. Please enter a valid date in MM-DD-YYYY.";
         }
-        
         
         // Retrieve data from the input fields - DG
         if (errorMsg.isEmpty()) {
@@ -270,6 +260,21 @@ public class App extends Application {
                 alert.setContentText("The form has been submitted.");
                 alert.showAndWait();
 
+                // clear the input fields
+                firstNameField.clear();
+                lastNameField.clear();
+                teamNameField.clear();
+                inningsPitchedField.clear();
+                hitField.clear();
+                runField.clear();
+                earnedRunField.clear();
+                walkField.clear();
+                strikeoutField.clear();
+                atBatField.clear();
+                battersFacedField.clear();
+                numberOfPitchesField.clear();
+                DateOfGameField.clear();
+
             } catch (NumberFormatException e) {
                 // Handle parsing error (invalid double input)
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -291,22 +296,6 @@ public class App extends Application {
             alert.setContentText(errorMsg);
             alert.showAndWait();
         }
-/*
-        // Clear text fields
-        firstNameField.clear();
-        lastNameField.clear();
-        teamNameField.clear();
-        inningsPitchedField.clear();
-        hitField.clear();
-        runField.clear();
-        earnedRunField.clear();
-        walkField.clear();
-        strikeoutField.clear();
-        atBatField.clear();
-        battersFacedField.clear();
-        numberOfPitchesField.clear();
-        DateOfGameField.clear();
-*/
     }
 
     // help button function -DG
