@@ -1,10 +1,8 @@
-
 /*
 * Author: Jay Lee
 * Date: 4/26/2024
 * Purpose: Manage the sqlite file entries
 */
-
 
 package pitcher_project_team.pitcher_stat_tracker;
 
