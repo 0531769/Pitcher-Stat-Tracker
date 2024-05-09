@@ -479,7 +479,7 @@ public class App extends Application {
             if (datesList.contains(gameDate)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Invalid Submission");
-                alert.setHeaderText("null");
+                alert.setHeaderText(null);
                 alert.setContentText("The selected game is already in the summary.");
                 alert.showAndWait();
 
