@@ -45,7 +45,7 @@ public class MultiGameReport {
 
         // Legend explaining the abbreviations
         StringBuilder legendBuilder = new StringBuilder();
-        legendBuilder.append("Legend:\n");
+        legendBuilder.append("Legend\n");
         for (Map.Entry<String, String> entry : sortedAbbreviationList) {
             legendBuilder.append(entry.getValue()).append(": ").append(entry.getKey()).append("\n");
         }
@@ -53,7 +53,7 @@ public class MultiGameReport {
 
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:pitcher_stats.sqlite")) {
             List<String> reportLines = new ArrayList<>();
-            reportLines.add("Season Summary:");
+            reportLines.add("Season Summary");
             reportLines.add("");
             reportLines.add(String.format("%-20s%-20s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s",
                     "Player", "Team Name", "IP", "H", "R", "ER", "BB", "SO", "AB", "BF", "NP", "ERA"));
